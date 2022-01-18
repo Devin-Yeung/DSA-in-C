@@ -20,6 +20,7 @@ typedef struct Stack {
 void InitStack (Stack * S);
 void push(int val, Stack * S);
 bool pop(int * val, Stack * S);
+void destoryStack (Stack * S);
 
 
 

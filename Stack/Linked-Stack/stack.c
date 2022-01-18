@@ -42,6 +42,14 @@ bool pop(int * val, Stack * S){
 }
 
 
+
+void destoryStack (Stack * S){
+    int tmp;
+    while(pop(&tmp,S) != 0);
+    return;
+}
+
+
 // print out the stack from the top
 void printStack(Stack * S){
     Elem * pscan = S -> top;
@@ -58,15 +66,28 @@ int main(void){
     Stack S;
     int tmp;
     InitStack(&S);
+    printf("@@@@@ TEST START @@@@@\n\n");
+
+    printf("@@@@@ Push Test @@@@@\n");
     push(1,&S);
-    // push(3,&S);
-    // push(5,&S);
     printStack(&S);
+    push(3,&S);
+    push(5,&S);
+    printStack(&S);
+    puts("");
+
+    printf("@@@@@ Pop Test @@@@@\n");
     pop(&tmp,&S);
+    printStack(&S);
+    puts("");
+    
+    printf("@@@@@ Destroy Stack Test @@@@@\n");
+    destoryStack(&S);
     if(pop(&tmp,&S) == 0){
         fprintf(stderr,"Nothing to pop\n");
         fflush(stderr);
     }
     printStack(&S);
+    puts("");
     return 0;
 }
