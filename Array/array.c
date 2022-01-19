@@ -41,15 +41,26 @@ bool resize (Array * arr, int capacity){
 
 
 
-static void shift (Array * arr, int index){
-    if(index <= 0){
+
+void checkUsage (Array * arr){
+    float usageRatio = 1.0 * arr -> size / arr -> capacity;
+    if(usageRatio <= 0.25 && arr -> capacity >= 16){
+        resize(arr, 0.5 * arr -> capacity);
+    }
+}
+
+
+
+static void shift (Array * arr, int num){
+    if(num <= 0){
+        fprintf(stderr,"shift: invalid number (left shifting is not supported)");
         return;
     }
 
     // check capacity
-    if(arr -> size + index >= arr -> capacity){
+    if(arr -> size + num >= arr -> capacity){
         // resize 2 * capacity as default, if it can not be allocated, resize (capacity + 1)
-        resize(arr,2 * arr -> capacity) ? : resize(arr, arr -> capacity + 1);
+        resize(arr, 2 * arr -> capacity) ? : resize(arr, arr -> capacity + 1);
     }
 
     for(int i = arr -> size - 1; 0 <= i; i--){
@@ -71,7 +82,7 @@ void addFirst (Array * arr, Data data){
 void addLast (Array * arr, Data data){
     if(arr -> size == arr -> capacity){
         // resize 2 * capacity as default, if it can not be allocated, resize (capacity + 1)
-        resize(arr,2 * arr -> capacity) ? : resize(arr, arr -> capacity + 1);
+        resize(arr, 2 * arr -> capacity) ? : resize(arr, arr -> capacity + 1);
     }
     arr -> data[arr -> size] = data;
     arr -> size += 1;
@@ -81,6 +92,7 @@ void addLast (Array * arr, Data data){
 
 void removeLast (Array * arr){
     arr -> size -= 1;
+    checkUsage(arr);
 }
 
 
@@ -109,11 +121,14 @@ int main(void){
     for(int i = 0; i < 100; i++){
         addLast(&arr,i);
     }
-    for(int i = 0; i < 50; i++){
+    for(int i = 0; i < 90; i++){
         removeLast(&arr);
     }
     addFirst(&arr,64);
     printArray(&arr);
+    printf("size:%d\n",arr.size);
+    printf("capacity: %d\n",arr.capacity);
+    printf("Usage: %f",1.0 * arr.size / arr.capacity);
     destoryArray(&arr);
     return 0;
 }
