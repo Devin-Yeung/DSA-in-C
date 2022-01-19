@@ -50,8 +50,8 @@ void checkUsage (Array * arr){
 }
 
 
-
-static void shift (Array * arr, int num){
+// shift the array from the given index
+static void shift (Array * arr, int index, int num){
     if(num <= 0){
         fprintf(stderr,"shift: invalid number (left shifting is not supported)");
         return;
@@ -63,7 +63,7 @@ static void shift (Array * arr, int num){
         resize(arr, 2 * arr -> capacity) ? : resize(arr, arr -> capacity + 1);
     }
 
-    for(int i = arr -> size - 1; 0 <= i; i--){
+    for(int i = arr -> size - 1; index <= i; i--){
         // move the elem
         arr -> data[i + 1] = arr -> data[i];
     }
@@ -71,8 +71,25 @@ static void shift (Array * arr, int num){
 
 
 
+void insert (Array * arr, int index, Data data){
+    shift(arr, index, 1);
+    arr -> data[index] = data;
+    arr -> size += 1;
+}
+
+
+
+void swap (Array * arr, int a, int b){
+    Data tmp;
+    tmp = arr -> data[a];
+    arr -> data[a] = arr -> data[b];
+    arr -> data[b] = tmp;
+}
+
+
+
 void addFirst (Array * arr, Data data){
-    shift(arr,1);
+    shift(arr,0,1);
     arr -> data[0] = data;
     arr -> size += 1;
 }
@@ -125,6 +142,7 @@ int main(void){
         removeLast(&arr);
     }
     addFirst(&arr,64);
+    insert(&arr,0,-64);
     printArray(&arr);
     printf("size:%d\n",arr.size);
     printf("capacity: %d\n",arr.capacity);
