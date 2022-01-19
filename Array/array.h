@@ -15,6 +15,8 @@ typedef struct Array{
 
 void initArray (Array * arr, int capacity);
 bool resize (Array * arr, int capacity);
+static void shift (Array * arr, int index);
+void addFirst (Array * arr, Data data);
 void addLast (Array * arr, Data data);
 void removeLast (Array * arr);
 void printArray (Array * arr);

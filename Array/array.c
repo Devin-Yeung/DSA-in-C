@@ -41,6 +41,33 @@ bool resize (Array * arr, int capacity){
 
 
 
+static void shift (Array * arr, int index){
+    if(index <= 0){
+        return;
+    }
+
+    // check capacity
+    if(arr -> size + index >= arr -> capacity){
+        // resize 2 * capacity as default, if it can not be allocated, resize (capacity + 1)
+        resize(arr,2 * arr -> capacity) ? : resize(arr, arr -> capacity + 1);
+    }
+
+    for(int i = arr -> size - 1; 0 <= i; i--){
+        // move the elem
+        arr -> data[i + 1] = arr -> data[i];
+    }
+}
+
+
+
+void addFirst (Array * arr, Data data){
+    shift(arr,1);
+    arr -> data[0] = data;
+    arr -> size += 1;
+}
+
+
+
 void addLast (Array * arr, Data data){
     if(arr -> size == arr -> capacity){
         // resize 2 * capacity as default, if it can not be allocated, resize (capacity + 1)
@@ -85,6 +112,7 @@ int main(void){
     for(int i = 0; i < 50; i++){
         removeLast(&arr);
     }
+    addFirst(&arr,64);
     printArray(&arr);
     destoryArray(&arr);
     return 0;
