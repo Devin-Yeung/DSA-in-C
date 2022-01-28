@@ -4,11 +4,13 @@
 #include "stack.h"
 
 
+
 void InitStack (Stack * S){
     S -> top = NULL;
     S -> size = 0;
     return;
 }
+
 
 
 void push(int val, Stack * S){
@@ -43,11 +45,18 @@ bool pop(int * val, Stack * S){
 
 
 
+int peek (const Stack * S){
+    return S -> top -> val;
+}
+
+
+
 void destoryStack (Stack * S){
     int tmp;
     while(pop(&tmp,S) != 0);
     return;
 }
+
 
 
 // print out the stack from the top
@@ -62,6 +71,8 @@ void printStack(Stack * S){
     return;
 }
 
+
+
 int main(void){
     Stack S;
     int tmp;
@@ -74,6 +85,10 @@ int main(void){
     push(3,&S);
     push(5,&S);
     printStack(&S);
+    puts("");
+
+    printf("@@@@@ Peek Test @@@@@\n");
+    printf("%d\n",peek(&S));
     puts("");
 
     printf("@@@@@ Pop Test @@@@@\n");
