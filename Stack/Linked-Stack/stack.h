@@ -17,7 +17,7 @@ typedef struct Stack {
 
 
 
-void InitStack (Stack * S);
+void initStack (Stack * S);
 void push(int val, Stack * S);
 bool pop(int * val, Stack * S);
 int peek(const Stack * S);

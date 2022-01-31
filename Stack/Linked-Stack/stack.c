@@ -5,7 +5,7 @@
 
 
 
-void InitStack (Stack * S){
+void initStack (Stack * S){
     S -> top = NULL;
     S -> size = 0;
     return;
