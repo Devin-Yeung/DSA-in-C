@@ -13,6 +13,21 @@ void initArray (Array * arr, int capacity){
 
 
 
+Data get (const Array * arr, int index){
+    if(index < 0 || index >= size(arr)){
+        fprintf(stderr,"get: index out of range.\n");
+    }
+    return(arr -> data[index]);
+}
+
+
+
+int size (const Array * arr){
+    return arr -> size;
+}
+
+
+
 // if success return 1, else 0;
 bool resize (Array * arr, int capacity){
     puts("resize triggered!");
@@ -22,7 +37,7 @@ bool resize (Array * arr, int capacity){
 
     // check if malloc successfully
     if(arr -> data == NULL){
-        fprintf(stderr,"resize: fail to malloc memory");
+        fprintf(stderr,"resize: fail to malloc memory\n");
         fflush(stderr);
         return 0;
     }
@@ -41,7 +56,6 @@ bool resize (Array * arr, int capacity){
 
 
 
-
 void checkUsage (Array * arr){
     float usageRatio = 1.0 * arr -> size / arr -> capacity;
     if(usageRatio <= 0.25 && arr -> capacity >= 16){
@@ -50,10 +64,11 @@ void checkUsage (Array * arr){
 }
 
 
+
 // shift the array from the given index
 static void shift (Array * arr, int index, int num){
     if(num <= 0){
-        fprintf(stderr,"shift: invalid number (left shifting is not supported)");
+        fprintf(stderr,"shift: invalid number (left shifting is not supported)\n");
         return;
     }
 
@@ -107,9 +122,19 @@ void addLast (Array * arr, Data data){
 
 
 
-void removeLast (Array * arr){
+Data removeLast (Array * arr){
+    Data data = get(arr,size(arr) - 1);
     arr -> size -= 1;
     checkUsage(arr);
+    return data;
+}
+
+
+
+void toArray (Array * arr, const Data * data, int size){
+    for(int i = 0; i < size; i++){
+        addLast(arr,data[i]);
+    }
 }
 
 
@@ -148,5 +173,9 @@ int main(void){
     printf("capacity: %d\n",arr.capacity);
     printf("Usage: %f",1.0 * arr.size / arr.capacity);
     destoryArray(&arr);
+    initArray(&arr,8);
+    int dataArray[] = {1,2,3,4,5,6,7,8,9};
+    toArray(&arr,dataArray,9);
+    printArray(&arr);
     return 0;
 }
